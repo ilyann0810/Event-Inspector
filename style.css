@@ -216,14 +216,14 @@ aside .sidebar a:hover span{
 }
 
 .login-container{
-    position: absolute;
+    position: relative;
     width: 35rem;
     height: 50rem;
     padding-top: 1rem;
     padding-bottom: 4rem;
     padding-left: 3rem;
     padding-right: 2rem;
-    margin-bottom: 10rem;
+    margin-top: 1.5rem;
     background-color: #202528;
     box-shadow: var(--box-shadow);
     border-radius: var(--card-border-radius);
