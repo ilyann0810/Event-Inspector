@@ -239,7 +239,7 @@ aside .sidebar a:hover span{
 .card{
     margin-top: 1rem;
     padding:  7rem 1rem 7rem;
-    margin-bottom: 10rem;
+    
     background-color: #202528;
     box-shadow: var(--box-shadow);
     border-radius: var(--card-border-radius);
