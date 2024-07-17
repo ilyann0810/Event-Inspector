@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container2" id="cnt" >
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="/static/images/logo.png">
+                    <h2>INSPEC<span class="danger">TOR</span></h2>
+                    <div class="close">
+                    <span class="material-symbols-outlined">close</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="/" class="active">
+                    <span class="material-symbols-outlined">grid_view</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="event_manager.html">
+                    <span class="material-symbols-outlined">event</span>
+                    <h3>Event Manager</h3>
+                </a>
+
+                <a href="Add customer.html">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <h3>Add Customer</h3>
+                </a>
+
+                 <a href="edit_customer.html">
+                    <span class="material-symbols-outlined">edit</span>
+                    <h3>Edit Customer</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-outlined">
+                        unknown_document
+                        </span>
+                    <h3>Request</h3>
+                </a>
+                <a href="#">
+                    <span class="material-symbols-outlined">
+                        logout
+                        </span>
+                    <h3>Logout</h3>
+                </a>
+
+               
+  
+            </div>
+        </aside>
+        <main>
+            <h1>Event Manager</h1>
+          
+            <div class="button_list2">
+                <button onclick="openForm()"  class="login-button">Add Event</button>
+                <button  onclick="opendeleteForm()"  class="login-button">Delete Event</button>
+            </div>
+           
+            <div class="timeline">
+                
+
+                
+               
+                {% for event in case.events %}
+                <div class="container-event {% if loop.index % 2 == 0 %}right-container {% else %}left-container{% endif %}">
+                    <div class="text-box ">
+                        <div class="{% if loop.index % 2 == 0 %}circle_right {% else %}{% endif %}"></div>
+                        <h2>{{ event.name }}</h2>
+                        <small>{{ event.timestamp}}</small>
+                        <h4>Uploaded by : {{ event.profile_name}}</h4>
+                        <small> </small>
+                        <p>{{ event.description }}</p>
+                    </div>
+                  </div>
+                  {% endfor %}
+            </div>
+              
+        
+        </main>
+        
+    </div>
+    <div class="main-content2">
+        <div class="popup2" id="myForm">
+            <form id="login-form" class="login-form" method="POST" action="{{ url_for('create_event', case_id=case.id) }}">
+                <div class="horizontal-form">
+                    <div class="input-group">
+                        <label for="Event_title">Title :</label >
+                        <input type="text" id="Event_title" name="Event_title" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="profile_name">Choose a profile :</label>
+                            
+                        <select name="profile_name" id="profile_name">
+                            {% for profile in profiles%}
+                            <option value="{{profile.name}}">{{profile.name}}</option>
+                            {% endfor %}
+                        </select>
+                            
+                    </div>
+                    <div class="input-group">
+                        <label for="time">Event Date :</label>
+                        <input name="time"  type="datetime-local" >
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="Event_Description">Description :</label >
+                        <input type="text" id="Event_Description" name="Event_Description" required>
+                    </div>
+                    
+                   
+                    
+                </div>
+                <div class="button_list">
+                    <button type="submit" class="login-button">Submit</button>
+                    <button  onclick="closeForm()"  class="login-button">Cancel</button>
+                </div>
+                
+            </form>
+            
+        </div>  
+    </div>
+    <div class="main-content3">
+        <div class="popup2" id="myForm2" >
+            <form id="login-form" class="login-form" method="POST" action="{{ url_for('delete_event', case_id=case.id) }}" >
+                <div class="horizontal-form">
+                    
+
+                    <div class="input-group">
+                        <label for="Event_id">Delete Event :</label>
+                            
+                        <select name="Event_id" id="Event_id">
+                            {% for event in case.events%}
+                            <option value="{{event.id}}">{{event.id}}-{{event.name}}</option>
+                            {% endfor %}
+                        </select>
+                            
+                    </div>
+                   
+                    
+                   
+                    
+                </div>
+                <div class="button_list">
+                    <button type="submit" class="login-button">Submit</button>
+                    <button  onclick="closedeleteForm()"  class="login-button">Cancel</button>
+                </div>
+                
+            </form>
+            
+        </div>  
+    </div>
+    
+    
+    
+</body>
+</html>
+
+
+<script>
+    const timelineItems = document.querySelectorAll('.container-event');
+     const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    // Observe each timeline item
+    timelineItems.forEach(item => {
+        observer.observe(item);
+    });
+
+    function openForm() {
+        
+        document.getElementById("myForm").style.display = "block";
+      
+        
+        document.getElementById("cnt").classList.add('blur-background');
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+      document.getElementById("cnt").classList.remove('blur-background');
+    }
+
+    function opendeleteForm() {
+        
+        document.getElementById("myForm2").style.display = "block";
+      
+        
+        document.getElementById("cnt").classList.add('blur-background');
+    }  
+    
+    function closedeleteForm() {
+      document.getElementById("myForm2").style.display = "none";
+      document.getElementById("cnt").classList.remove('blur-background');
+    }
+
+</script>
+    
+
